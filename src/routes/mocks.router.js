@@ -2,7 +2,6 @@ import { Router } from "express";
 
 import userController from "../controllers/users.controller.js";
 import petsController from "../controllers/pets.controller.js";
-import { addLogger } from "../middlewares/errors/logger.js";
 import { generateMockUsers } from "../utils/mocking.js";
 
 const router = Router();
