@@ -11,35 +11,46 @@ import mocksRouter from './routes/mocks.router.js';
 
 import errorHandler from './middlewares/errors/index.js';
 import { config } from './config.js';
+import { addLogger } from './middlewares/errors/logger.js';
 
 const app = express();
-const PORT = process.env.PORT|| config.port;
+const PORT = process.env.PORT || config.port;
 
-mongoose.connect(config.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+try {
+    mongoose.connect(config.MONGODB_URI);
+    console.log('Conexión a MongoDB exitosa.');
+  } catch (error) {
+    console.error('Error al conectar a MongoDB:', error.message);
+    process.exit(1);
+}
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(addLogger);
 
-app.use('/api/users',usersRouter);
-app.use('/api/pets',petsRouter);
-app.use('/api/adoptions',adoptionsRouter);
-app.use('/api/sessions',sessionsRouter);
-app.use("/api/mocks",mocksRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/pets', petsRouter);
+app.use('/api/adoptions', adoptionsRouter);
+app.use('/api/sessions', sessionsRouter);
+app.use('/api/mocks', mocksRouter);
 
 app.use(errorHandler);
-app.use(compression({
-    brotli:{enabled:true,zlib:{}}
-}));
-app.get('/pruebacompression',(req,res)=>{
-    let string = "soy un string demasiado largo para ser comprimido";
-    for (let i = 0; i < 50000; i++) {
-        string += "soy un string demasiado largo para ser comprimido";
-        
-    }
-    res.send(string)
-})
+app.use(
+  compression({
+    brotli: { enabled: true, zlib: {} },
+  })
+);
 
-app.listen(PORT,()=>console.log(`Listening on ${PORT}`))
+app.get("/loggerTest", (req, res) => {
+  req.logger.fatal("Mensaje de nivel fatal");
+  req.logger.error("Mensaje de nivel error");
+  req.logger.warn("Mensaje de nivel warn");
+  req.logger.info("Mensaje de nivel info");
+  req.logger.http("Mensaje de nivel http");
+  req.logger.debug("Mensaje de nivel debug");
+
+  res.send("Prueba de logs completada. Revisa la consola y/o archivo de logs.");
+});
+
+
+app.listen(PORT, () => console.log(`Listening on ${PORT}`));
