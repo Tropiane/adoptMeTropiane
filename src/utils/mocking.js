@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { createHash } from './index.js';
+import { createHash } from '../utils.js';
 
 const facker = faker;
 export const generateMockPets = (number) => {

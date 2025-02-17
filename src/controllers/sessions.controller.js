@@ -1,5 +1,5 @@
 import { usersService } from "../services/index.js";
-import { createHash, passwordValidation } from "../utils/index.js";
+import { createHash, passwordValidation } from "../utils.js";
 import jwt from 'jsonwebtoken';
 import UserDTO from '../dto/User.dto.js';
 

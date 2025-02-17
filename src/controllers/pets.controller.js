@@ -1,6 +1,6 @@
 import PetDTO from "../dto/Pet.dto.js";
 import { petsService } from "../services/index.js"
-import __dirname from "../utils/index.js";
+import __dirname from "../utils.js";
 import { generateMockPets } from "../utils/mocking.js";
 
 const getAllPets = async(req,res)=>{

@@ -2,6 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import compression from 'express-compression';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
 import usersRouter from './routes/users.router.js';
 import petsRouter from './routes/pets.router.js';
@@ -9,12 +11,15 @@ import adoptionsRouter from './routes/adoption.router.js';
 import sessionsRouter from './routes/sessions.router.js';
 import mocksRouter from './routes/mocks.router.js';
 
+import __dirname from './utils.js';
 import errorHandler from './middlewares/errors/index.js';
 import { config } from './config.js';
+import { swaggerOptions } from './utils/swagger.js';
 import { addLogger } from './middlewares/errors/logger.js';
 
 const app = express();
 const PORT = process.env.PORT || config.port;
+const specs = swaggerJSDoc(swaggerOptions);
 
 try {
     mongoose.connect(config.MONGODB_URI);
@@ -28,6 +33,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(addLogger);
 
+app.use("/apidocs", swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/api/users', usersRouter);
 app.use('/api/pets', petsRouter);
 app.use('/api/adoptions', adoptionsRouter);
