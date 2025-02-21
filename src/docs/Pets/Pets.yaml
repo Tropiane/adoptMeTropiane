@@ -12,6 +12,8 @@
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
+        '404':
+          description: No se encontraron mascotas
         '500':
           description: Error interno del servidor generado por una query o una falla en la conexión con la BBDD
     post:
@@ -32,7 +34,7 @@
               schema:
                 $ref: '#/components/schemas/Pet'
         '400':
-          description: El cuerpo de la petición no es válido
+          description: Todos los campos son requeridos
         '500':
           description: Error interno del servidor generado por una query o una falla en la conexión con la BBDD
   /api/pets/{pid}:
