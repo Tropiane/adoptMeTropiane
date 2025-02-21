@@ -1,0 +1,140 @@
+  /api/pets/:
+    get:
+      summary: Get all pets
+      tags:
+        - Pets
+      responses:
+        '200':
+          description: Se obtuvieron los pets con exito
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pet'
+        '500':
+          description: Error interno del servidor generado por una query o una falla en la conexión con la BBDD
+    post:
+      summary: Create a new pet
+      tags:
+        - Pets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '201':
+          description: Se creó un nuevo pet con exito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: El cuerpo de la petición no es válido
+        '500':
+          description: Error interno del servidor generado por una query o una falla en la conexión con la BBDD
+  /api/pets/{pid}:
+    get:
+      summary: Get a pet
+      tags:
+        - Pets
+      parameters:
+        - name: pid
+          in: path
+          description: Obtiene un pet con base en su ID (pid)
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Se obtuvo el pet con exito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '404':
+          description: El pet no fue encontrado
+        '500':
+          description: Error interno del servidor generado por una query o una falla en la conexión con la BBDD
+    put:
+      summary: Update a pet
+      tags:
+        - Pets
+      parameters:
+        - name: pid
+          in: path
+          description: Actualiza un pet con base en su ID (pid)
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pet'
+      responses:
+        '200':
+          description: Se actualizó el pet con exito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        '400':
+          description: El cuerpo de la petición no es válido
+        '404':
+          description: El pet no fue encontrado
+        '500':
+          description: Error interno del servidor generado por una query o una falla en la conexión con la BBDD
+    delete:
+      summary: Delete a pet
+      tags:
+        - Pets
+      parameters:
+        - name: pid
+          in: path
+          description: Elimina un pet con base en su ID (pid)
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Se eliminó el pet con exito
+        '404':
+          description: El pet no fue encontrado
+        '500':
+          description: Error interno del servidor generado por una query o una falla en la conexión con la BBDD
+
+  components:
+    schemas:
+      Pet:
+        type: object
+        properties:
+          name:
+            type: string
+          specie:
+            type: string
+          birthDate:
+            type: string
+            format: date
+          image:
+            type: string
+          adopted:
+            type: boolean
+          owner:
+            type: string
+            format: object-id
+            description: The ID of the User that owns this pet
+        required:
+          - name
+          - specie
+          - birthDate
+        example:
+          name: Fluffy
+          specie: Cat
+          birthDate: '2022-01-01'
+          image: ''
+          adopted: false
+          owner: '62f4bbd6a2b29b5d8f5a7a5a'

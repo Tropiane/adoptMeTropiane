@@ -6,9 +6,25 @@ paths:
         - Users
       responses:
         '200':
-          description: Se obtuvieron los usuarios con exito y si errores
+          description: Se obtuvieron los usuarios con exito
         '500':
           description: Error interno del servidor generado por una query o una falla en la conexión con la BBDD
+    post:
+      summary: Create a new user
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Se creó un nuevo usuario con exito
+        '500':
+          description: Error interno del servidor generado por una query o una falla en la conexión con la BBDD
+
   /api/users/{uid}:
     get:
       summary: Get a user
@@ -23,7 +39,7 @@ paths:
             type: string
       responses:
         '200':
-          description: Se obtuvo el usuario con exito y si hay errores
+          description: Se obtuvo el usuario con exito
           content: 
             aplication/json:
               schema:
@@ -32,14 +48,52 @@ paths:
           description: El usuario no fue encontrado
         '500':
           description: Error interno del servidor generado por una query o una falla en la conexión con la BBDD
-  /api/users:
-    post:
-      summary: Create User
-      tags: 
-        -Users
+    delete:
+      summary: Delete User
+      tags:
+        - Users
       parameters:
-        -name
-
+        - name: uid
+          in: path
+          description: Elimina un usuario con base en su ID (uid)
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Se elimino el usuario con exito
+        '404':
+          description: El usuario no fue encontrado
+        '500':
+          description: Error interno del servidor generado por una query o una falla en la conexión con la BBDD
+    put:
+      summary: Update User
+      tags:
+        - Users
+      parameters:
+        - name: uid
+          in: path
+          description: Actualiza un usuario con base en su ID (uid)
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Se actualizo el usuario con exito
+          content: 
+            aplication/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: El usuario no fue encontrado
+        '500':
+          description: Error interno del servidor generado por una query o una falla en la conexión con la BBDD
 
 components:
   schemas:

@@ -1,0 +1,103 @@
+paths:
+  /api/adoptions/:
+    get:
+      summary: Obtener todas las adopciones
+      tags:
+        - Adopciones
+      responses:
+        '200':
+          description: Se obtuvieron todas las adopciones con éxito
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Adoption'
+        '500':
+          description: Error interno del servidor
+
+    post:
+      summary: Crear una nueva adopción
+      tags:
+        - Adopciones
+      requestBody:
+        requerido: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Adoption'
+      responses:
+        '201':
+          description: Se creó una nueva adopción con éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Adoption'
+        '400':
+          description: Cuerpo de la solicitud no válido
+        '500':
+          description: Error interno del servidor
+
+  /api/adoptions/{aid}:
+    get:
+      summary: Obtener una adopción
+      tags:
+        - Adopciones
+      parameters:
+        - name: aid
+          in: path
+          description: Obtiene una adopción por su ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Se obtuvo la adopción con éxito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Adoption'
+        '404':
+          description: Adopción no encontrada
+        '500':
+          description: Error interno del servidor
+
+    delete:
+      summary: Eliminar una adopción
+      tags:
+        - Adopciones
+      parameters:
+        - name: aid
+          in: path
+          description: Elimina una adopción por su ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Se eliminó la adopción con éxito
+        '404':
+          description: Adopción no encontrada
+        '500':
+          description: Error interno del servidor
+
+components:
+  schemas:
+    Adoption:
+      type: object
+      properties:
+        owner:
+          type: string
+          format: object-id
+          description: El ID del usuario que adoptó al animal
+        pet:
+          type: string
+          format: object-id
+          description: El ID del animal que fue adoptado
+      required:
+        - owner
+        - pet
+      example:
+        owner: ''
+        pet: ''
+

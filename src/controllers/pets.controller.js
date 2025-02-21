@@ -13,19 +13,34 @@ const getAllPets = async(req,res)=>{
     }
 }
 
-const createPet = async(quantity)=> {
+const createPet = async(req, res)=> {
+    const {name,specie,birthDate} = req.body;
+    const quantity = req.query.quantity || 1;
     const pets = [];
 
     try {
-        const data = generateMockPets(quantity);
-        data.forEach(pet => {
-            pets.push(new PetDTO(pet))
-        });
-        
-        const result = pets.forEach(async(pet)=>{
-            await petsService.create(pet)
-        });
-        return result
+        if(quantity>1){
+
+            const data = generateMockPets(quantity);
+            data.forEach(pet => {
+                pets.push(new PetDTO(pet))
+            });
+
+            const result = pets.forEach(async(pet)=>{
+                await petsService.create(pet)
+            });
+            return result
+        }
+
+    const pet = new PetDTO({
+        name,
+        specie,
+        birthDate
+    });
+    const result = await petsService.create(pet);
+    
+    res.send({status:"success",payload:result})
+    
     } catch (error) {
         console.log(error);
         
