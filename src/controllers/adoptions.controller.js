@@ -1,5 +1,5 @@
 import { adoptionsService, petsService, usersService } from "../services/index.js"
-import errorDictionary from "../utils/errorDictionary.js";
+import errorDictionary from "../middlewares/errors/errorDictionary.js";
 
 const getAllAdoptions = async(req,res)=>{
     try {
