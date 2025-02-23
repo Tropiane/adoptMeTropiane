@@ -32,6 +32,7 @@ const createPet = async(req, res)=> {
             const result = pets.forEach(async(pet)=>{
                 await petsService.create(pet)
             });
+            res.send({status:"success",payload:result})
             return result
         }
 
