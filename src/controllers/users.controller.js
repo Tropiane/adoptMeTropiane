@@ -61,22 +61,31 @@ const deleteUser = async(req,res) =>{
     }
 }
 
-const create = async(quantity)=>{
-    const users = []
-    try {
-        const data = generateMockUsers(quantity);
-        data.forEach(user => {
-            users.push(new UserDTO(user))
-        })
-        const result = users.forEach(async(user)=>{
-            return await usersService.create(user)
-        });
-        return result
-        
-    } catch (error) {
-        console.log("error al crear el usuario", error);
+const create = async (req, res) => {
+    const quantity = req.query.quantity;
+    const data = req.body;
+    const document = req.file ? `/documents/${req.file.filename}` : null;
+    const newUser = { ...data, document };
+    console.log(req.body);
+    
+
+    if (quantity) {
+        const users = generateMockUsers(quantity);
+        await usersService.create(users);
+        return res.send({ status: "success", message: "Users created" });
     }
-}
+
+
+    if (!first_name || !last_name || !email || !password) {
+        return res.status(400).send({ status: "error", error: errorDictionary.ALL_FIELDS_REQUIRED.message });
+    }
+
+    // const newUser = new UserDTO(user);
+    // await usersService.create(newUser);
+    
+    return res.send({ status: "success", message: "User created" });
+};
+
 
 const userController= {
     deleteUser,

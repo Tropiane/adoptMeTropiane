@@ -6,7 +6,8 @@ export default class UserDTO{
         this.last_name = String(user.last_name),
         this.email= String(user.email),
         this.role= String(user.role),
-        this.password = createHash(user.password)
+        this.password = createHash(user.password),
+        this.last_connection = Date.now()
     }
 
 };
