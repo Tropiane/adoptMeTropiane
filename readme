@@ -38,3 +38,15 @@ Para ejecutar las pruebas, se debe ejecutar el comando `npm test` en la carpeta 
 ### Documentación de la API
 
 La documentación de la API se encuentra en la carpeta `/docs`. Puede acceder a ella mediante la URL `http://localhost:8080/apidocs/`.
+
+### Repositorio en DockerHub 
+
+https://hub.docker.com/repository/docker/tropiane/ftropiane-adopt-me/general
+
+### Variables de entorno
+
+En caso de ser necesarias las variables de entorno por algun error (el cual no se encontrará), utilizar las siguientes variables de entorno:
+
+* port: 8080,
+* MONGODB_URI: process.env.MONGODB_URI,
+* NODE_ENV: process.env.NODE_ENV

@@ -44,7 +44,6 @@ const updateUser =async(req,res)=>{
     } catch (error) {
         console.log("error al actualizar el usuario", error);
         res.status(500).send({status:"error",error:errorDictionary.SERVER_ERROR.message})
-        
     }
 }
 
