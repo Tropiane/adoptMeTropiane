@@ -2,6 +2,7 @@ import { usersService } from "../services/index.js"
 import UserDTO from "../dto/User.dto.js";
 import { generateMockUsers } from "../utils/mocking.js";
 import errorDictionary from "../middlewares/errors/errorDictionary.js";
+import __dirname from "../utils.js";
 
 const getAllUsers = async(req,res)=>{
     try {
@@ -64,8 +65,7 @@ const deleteUser = async(req,res) =>{
 const create = async (req, res) => {
     const quantity = req.query.quantity;
     const data = req.body;
-    const document = req.file ? `/documents/${req.file.filename}` : null;
-    const newUser = { ...data, document };
+    const document = req.file ? `${__dirname}/../public/docs/${req.file.filename}` : null;
     console.log(req.body);
     
 
@@ -76,12 +76,13 @@ const create = async (req, res) => {
     }
 
 
-    if (!first_name || !last_name || !email || !password) {
+    if (!data.first_name || !data.last_name || !data.email || !data.password) {
         return res.status(400).send({ status: "error", error: errorDictionary.ALL_FIELDS_REQUIRED.message });
     }
 
-    // const newUser = new UserDTO(user);
-    // await usersService.create(newUser);
+    const newUser = new UserDTO(data);
+    req.file ? newUser.documents = [{ name: req.file.originalname, reference: document }] : null;
+    await usersService.create(newUser);
     
     return res.send({ status: "success", message: "User created" });
 };

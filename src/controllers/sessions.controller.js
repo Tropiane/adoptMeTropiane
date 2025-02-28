@@ -10,7 +10,7 @@ const register = async (req, res) => {
         if (!first_name || !last_name || !email || !password) return res.status(400).send({ status: "error", error: "Incomplete values" });
         const exists = await usersService.getUserByEmail(email);
         if (exists) return res.status(400).send({ status: "error", error: "User already exists" });
-        const hashedPassword = await createHash(password);
+        const hashedPassword = createHash(password);
         const user = {
             first_name,
             last_name,
@@ -36,8 +36,12 @@ const login = async (req, res) => {
         if(!user) return res.status(404).send({status:"error",error:errorDictionary.USER_NOT_FOUND.message});
         const isValidPassword = await passwordValidation(user,password);
         if(!isValidPassword) return res.status(400).send({status:"error",error:"Incorrect password"});
-        const userDto = UserDTO.getUserTokenFrom(user);
-        const token = jwt.sign(userDto,'tokenSecretJWT',{expiresIn:"1h"});
+        
+        const userDto = new UserDTO(user);
+        const token = jwt.sign(userDto,process.env.JWT_SECRET,{expiresIn:"1h"});
+        
+        user.last_connection = Date.now();
+        await user.save();
         res.cookie('coderCookie',token,{maxAge:3600000}).send({status:"success",message:"Logged in"})
         
     } catch (error) {

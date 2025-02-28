@@ -1,0 +1,40 @@
+# Readme del proyecto Adopt-me
+
+## Introducción
+
+Este proyecto utiliza NodeJs como entorno de ejecución y Express como framework para crear una API que permite a los usuarios adoptar mascotas. La API se divide en dos carpetas principales: `/src` y `/test`.
+
+### Carpeta `/src`
+
+La carpeta `/src` contiene el código fuente de la aplicación. A continuación se detallan los archivos y carpetas que se encuentran en esta carpeta:
+
+* `app.js`: Es el archivo principal de la aplicación y se encarga de inicializar la API.
+* `controllers`: Carpeta que contiene los controladores de la API. Estos controladores se encargan de manejar las solicitudes y devolver las respuestas correspondientes.
+* `dao`: Carpeta que contiene los archivos de acceso a datos. Estos archivos se encargan de interactuar con la base de datos.
+* `dto`: Carpeta que contiene los archivos de transferencia de datos. Estos archivos se encargan de convertir los datos de la base de datos en objetos que pueden ser utilizados por la API.
+* `models`: Carpeta que contiene los archivos de modelos de la base de datos.
+* `public`: Carpeta que contiene los archivos estáticos de la API.
+* `routes`: Carpeta que contiene los archivos de rutas de la API.
+* `services`: Carpeta que contiene los archivos de servicios de la API.
+* `utils`: Carpeta que contiene los archivos de utilidades de la API.
+
+### Carpeta `/test`
+
+La carpeta `/test` contiene los archivos de prueba de la API. A continuación se detallan los archivos y carpetas que se encuentran en esta carpeta:
+
+* `controllers`: Carpeta que contiene los archivos de prueba de los controladores de la API.
+* `dao`: Carpeta que contiene los archivos de prueba de los archivos de acceso a datos.
+* `dto`: Carpeta que contiene los archivos de prueba de los archivos de transferencia de datos.
+* `supertest`: Carpeta que contiene los archivos de prueba de la API utilizando la biblioteca `supertest`.
+
+### Ejecución de la API
+
+Para ejecutar la API, se debe ejecutar el comando `npm start` en la carpeta raíz del proyecto. La API se ejecutará en el puerto 8080.
+
+### Ejecución de las pruebas
+
+Para ejecutar las pruebas, se debe ejecutar el comando `npm test` en la carpeta raíz del proyecto. Las pruebas se ejecutarán en la carpeta `/test`.
+
+### Documentación de la API
+
+La documentación de la API se encuentra en la carpeta `/docs`. Puede acceder a ella mediante la URL `http://localhost:8080/apidocs/`.
